@@ -24,17 +24,16 @@ class UserDB:
 
         return None
     
+    @staticmethod
     def createUser(username, password):
         conn = get_connection()
         cursor = conn.cursor()
-
-        if UserDB.getUser(username):
-            return "Tài khoản này đã tồn tại"
-
-        query = "INSERT INTO users (username, password) VALUES (%s, %s)"
-        cursor.execute(query, (username, password))
-
-        conn.commit()
-        conn.close()
-
-        return "Tạo tài khoản thành công"
+        try:
+            query = "INSERT INTO users (username, password) VALUES (%s, %s)"
+            cursor.execute(query, (username, password))
+            conn.commit()
+        except Exception as e:
+            conn.rollback()
+            raise RuntimeError(f"Lỗi database: {str(e)}")
+        finally:
+            conn.close()
