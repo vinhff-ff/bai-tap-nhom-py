@@ -1,4 +1,4 @@
-Thứ nhất ko được nghịch vô Main.py !!!
+Thứ nhất ko được nghịch vô Main.py !!! 
 Thứ hai viết code trong repository để kết nối với cơ sở dũ liệu
 Thứ ba viết res để định nghĩa kiểu trả về trong repository
 Thứ tư viết services để sử lý logic
