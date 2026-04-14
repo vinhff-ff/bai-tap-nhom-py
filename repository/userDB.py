@@ -9,7 +9,7 @@ class UserDB:
     def getUser(username):
         conn = get_connection()
         cursor = conn.cursor()
-
+    
         query = "SELECT id, username, password FROM users WHERE username = %s LIMIT 1"
         cursor.execute(query, (username,))
 
