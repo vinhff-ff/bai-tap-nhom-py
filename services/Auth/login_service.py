@@ -8,4 +8,4 @@ class LoginService:
             raise ValueError("Sai tài khoản hoặc mật khẩu")
         if user.get_password() != password:
             raise ValueError("Sai tài khoản hoặc mật khẩu") 
-        return user.get_username() 
+        return user.get_username(), user.get_id()
