@@ -1,16 +1,13 @@
 from utils.connectDB import get_connection
 from res.users import Users
 
-from utils.connectDB import get_connection
-from res.users import Users
-
 class UserDB:
     @staticmethod
     def getUser(username):
         conn = get_connection()
         cursor = conn.cursor()
-    
-        query = "SELECT id, username, password FROM users WHERE username = %s LIMIT 1"
+
+        query = "SELECT id, username, password, created_at FROM users WHERE username = %s LIMIT 1"
         cursor.execute(query, (username,))
 
         result = cursor.fetchone()
@@ -18,9 +15,9 @@ class UserDB:
         conn.close()
 
         if result:
-            id, username, password = result
+            user_id, username, password, created_at = result
 
-            return Users(id, username, password)
+            return Users(user_id, username, password, created_at)
 
         return None
     

@@ -1,30 +1,52 @@
-class Schedule:
-    def __init__(self, id, user_id, work_date, start_time, end_time, title, note):
-        self.__id = id
+class Task:
+    def __init__(
+        self,
+        task_id,
+        user_id,
+        title,
+        description,
+        status,
+        deadline,
+        is_overdue,
+        created_at=None,
+        updated_at=None,
+    ):
+        self.__task_id = task_id
         self.__user_id = user_id
-        self.__work_date = work_date
-        self.__start_time = start_time
-        self.__end_time = end_time
         self.__title = title
-        self.__note = note
+        self.__description = description
+        self.__status = status
+        self.__deadline = deadline
+        self.__is_overdue = is_overdue
+        self.__created_at = created_at
+        self.__updated_at = updated_at
 
     def get_id(self):
-        return self.__id
+        return self.__task_id
 
     def get_user_id(self):
         return self.__user_id
 
-    def get_work_date(self):
-        return self.__work_date
-
-    def get_start_time(self):
-        return self.__start_time
-
-    def get_end_time(self):
-        return self.__end_time
-
     def get_title(self):
         return self.__title
 
-    def get_note(self):
-        return self.__note
+    def get_description(self):
+        return self.__description
+
+    def get_status(self):
+        return self.__status
+
+    def get_deadline(self):
+        return self.__deadline
+
+    def get_is_overdue(self):
+        return self.__is_overdue
+
+    def get_created_at(self):
+        return self.__created_at
+
+    def get_updated_at(self):
+        return self.__updated_at
+
+
+Schedule = Task
