@@ -1,17 +1,18 @@
 from utils.connectDB import get_connection
-from res.schedule import Schedule
+from res.schedule import Task
 
-class ScheduleDB:
+
+class TaskDB:
     @staticmethod
-    def create_schedule(user_id, work_date, start_time, end_time, title, note):
+    def create_task(user_id, title, description, status, deadline, created_at, is_overdue=False):
         conn = get_connection()
         cursor = conn.cursor()
         try:
             query = """
-                        INSERT INTO schedules (user_id, work_date, start_time, end_time, title, note)
-                        VALUES(%s, %s, %s, %s, %s, %s)
+                        INSERT INTO tasks (user_id, title, description, status, deadline, is_overdue, created_at)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)
                     """
-            cursor.execute(query, (user_id, work_date, start_time, end_time, title, note))
+            cursor.execute(query, (user_id, title, description, status, deadline, int(bool(is_overdue)), created_at))
             conn.commit()
             return cursor.lastrowid
         except Exception as e:
@@ -20,92 +21,60 @@ class ScheduleDB:
         finally:
             cursor.close()
             conn.close()
-    
+
     @staticmethod
-    def get_schedules_by_user(user_id):
+    def get_tasks_by_user(user_id):
         conn = get_connection()
         cursor = conn.cursor()
         try:
             query = """
-                        SELECT id, user_id, work_date, start_time, end_time, title, note
-                        FROM schedules
+                        SELECT id, user_id, title, description, status, deadline, is_overdue, created_at, updated_at
+                        FROM tasks
                         WHERE user_id = %s
-                        ORDER BY work_date ASC, start_time ASC 
+                        ORDER BY deadline ASC, created_at ASC
                     """
             cursor.execute(query, (user_id,))
             results = cursor.fetchall()
 
-            ds = []
+            tasks = []
             for row in results:
-                ds.append(
-                    Schedule(
-                        row[0], row[1], row[2], row[3], row[4], row[5], row[6]
+                tasks.append(
+                    Task(
+                        row[0],
+                        row[1],
+                        row[2],
+                        row[3],
+                        row[4],
+                        row[5],
+                        row[6],
+                        row[7],
+                        row[8],
                     )
                 )
-            return ds
+            return tasks
         finally:
             cursor.close()
             conn.close()
 
     @staticmethod
-    def has_conflict(user_id, work_date, start_time, end_time):
-        conn = get_connection()
-        cursor = conn.cursor()
-        try:
-            query = """
-                        SELECT id
-                        FROM schedules
-                        WHERE user_id = %s
-                          AND work_date = %s
-                          AND start_time < %s
-                          AND end_time > %s
-                        LIMIT 1
-                    """
-            cursor.execute(query, (user_id, work_date, end_time, start_time))
-            result = cursor.fetchone()
-            return result is not None
-        finally:
-            cursor.close()
-            conn.close()
-
-    @staticmethod
-    def has_conflict_excluding_id(schedule_id, user_id, work_date, start_time, end_time):
-        conn = get_connection()
-        cursor = conn.cursor()
-        try:
-            query = """
-                        SELECT id
-                        FROM schedules
-                        WHERE user_id = %s
-                          AND work_date = %s
-                          AND start_time < %s
-                          AND end_time > %s
-                          AND id <> %s
-                        LIMIT 1
-                    """
-            cursor.execute(query, (user_id, work_date, end_time, start_time, schedule_id))
-            result = cursor.fetchone()
-            return result is not None
-        finally:
-            cursor.close()
-            conn.close()
-
-    @staticmethod
-    def update_schedule(schedule_id,user_id, work_date, start_time, end_time, title, note):
+    def update_task(task_id, user_id, title, description, status, deadline, is_overdue):
         conn = get_connection()
         cursor = conn.cursor()
         try:
             update_query = """
-                            UPDATE schedules
-                            set work_date = %s,
-                                start_time = %s,
-                                end_time = %s,
-                                title = %s,
-                                note = %s
+                            UPDATE tasks
+                            SET title = %s,
+                                description = %s,
+                                status = %s,
+                                deadline = %s,
+                                is_overdue = %s,
+                                updated_at = NOW()
                             WHERE id = %s AND user_id = %s
-
                             """
-            cursor.execute(update_query, (work_date, start_time, end_time, title, note, schedule_id, user_id))
+            cursor.execute(
+                update_query,
+                (title, description, status, deadline, int(bool(is_overdue)), task_id, user_id),
+            )
             conn.commit()
             return cursor.rowcount
         except Exception as e:
@@ -116,15 +85,15 @@ class ScheduleDB:
             conn.close()
 
     @staticmethod
-    def delete_schedule(schedule_id, user_id):
+    def delete_task(task_id, user_id):
         conn = get_connection()
         cursor = conn.cursor()
         try:
             delete_query = """
-                            DELETE FROM schedules
+                            DELETE FROM tasks
                             WHERE id = %s AND user_id = %s
                            """
-            cursor.execute(delete_query, (schedule_id, user_id))
+            cursor.execute(delete_query, (task_id, user_id))
             conn.commit()
             return cursor.rowcount
         except Exception as e:
@@ -133,3 +102,6 @@ class ScheduleDB:
         finally:
             cursor.close()
             conn.close()
+
+
+ScheduleDB = TaskDB
