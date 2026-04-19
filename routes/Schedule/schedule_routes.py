@@ -37,36 +37,6 @@ def list_schedules_route(request_body):
 	except ValueError as e:
 		return {"status": 400, "message": str(e)}
 
-
-def list_schedules_by_status_route(request_body):
-	user_id = request_body.get("user_id")
-	status = request_body.get("status")
-
-	try:
-		schedules = ScheduleService.get_schedules_by_status(user_id, status)
-		return {
-			"status": 200,
-			"message": "Loc lich theo trang thai thanh cong",
-			"data": schedules,
-		}
-	except ValueError as e:
-		return {"status": 400, "message": str(e)}
-
-
-def overdue_schedules_route(request_body):
-	user_id = request_body.get("user_id")
-
-	try:
-		schedules = ScheduleService.get_overdue_schedules(user_id)
-		return {
-			"status": 200,
-			"message": "Lay danh sach cong viec qua han thanh cong",
-			"data": schedules,
-		}
-	except ValueError as e:
-		return {"status": 400, "message": str(e)}
-
-
 def update_schedule_route(request_body):
 	schedule_id = request_body.get("schedule_id")
 	user_id = request_body.get("user_id")
@@ -104,3 +74,33 @@ def delete_schedule_route(request_body):
 		return {"status": 400, "message": str(e)}
 	except RuntimeError as e:
 		return {"status": 500, "message": str(e)}
+
+# -----------------------------------------------------------------------------------------------------------------#
+
+def list_schedules_by_status_route(request_body):
+	user_id = request_body.get("user_id")
+	status = request_body.get("status")
+
+	try:
+		schedules = ScheduleService.get_schedules_by_status(user_id, status)
+		return {
+			"status": 200,
+			"message": "Loc lich theo trang thai thanh cong",
+			"data": schedules,
+		}
+	except ValueError as e:
+		return {"status": 400, "message": str(e)}
+
+
+def overdue_schedules_route(request_body):
+	user_id = request_body.get("user_id")
+
+	try:
+		schedules = ScheduleService.get_overdue_schedules(user_id)
+		return {
+			"status": 200,
+			"message": "Lay danh sach cong viec qua han thanh cong",
+			"data": schedules,
+		}
+	except ValueError as e:
+		return {"status": 400, "message": str(e)}
