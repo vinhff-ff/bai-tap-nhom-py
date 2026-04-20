@@ -1,4 +1,4 @@
-from repository.scheduleDB import TaskDB
+from repository.taskDB import TaskDB
 
 
 class TaskService:
@@ -50,24 +50,10 @@ class TaskService:
             raise ValueError("Thieu user_id")
 
         tasks = TaskDB.get_tasks_by_user(user_id)
-        return [TaskService._build_task_response(task) for task in tasks]
-
-    @staticmethod
-    def get_tasks_by_status(user_id, status):
-        if not user_id:
-            raise ValueError("Thieu user_id")
-
-        normalized_status = TaskService._normalize_status(status)
-        tasks = TaskService.get_tasks(user_id)
-        return [task for task in tasks if task["status"] == normalized_status]
-
-    @staticmethod
-    def get_overdue_tasks(user_id):
-        if not user_id:
-            raise ValueError("Thieu user_id")
-
-        tasks = TaskService.get_tasks(user_id)
-        return [task for task in tasks if task["is_overdue"]]
+        result = []
+        for task in tasks:
+            result.append(TaskService._build_task_response(task))
+        return result
 
     @staticmethod
     def update_task(task_id, user_id, title, description, status, deadline, is_overdue):
@@ -97,4 +83,22 @@ class TaskService:
 
         return True
 
-ScheduleService = TaskService
+    '''============================================================================================================='''
+    
+    @staticmethod
+    def get_tasks_by_status(user_id, status):
+        if not user_id:
+            raise ValueError("Thieu user_id")
+
+        normalized_status = TaskService._normalize_status(status)
+        tasks = TaskService.get_tasks(user_id)
+        return [task for task in tasks if task["status"] == normalized_status]
+
+    @staticmethod
+    def get_overdue_tasks(user_id):
+        if not user_id:
+            raise ValueError("Thieu user_id")
+
+        tasks = TaskService.get_tasks(user_id)
+        return [task for task in tasks if task["is_overdue"]]
+
