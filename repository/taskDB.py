@@ -1,5 +1,5 @@
 from utils.connectDB import get_connection
-from res.schedule import Task
+from res.task import Task
 
 
 class TaskDB:
@@ -23,7 +23,7 @@ class TaskDB:
             conn.close()
 
     @staticmethod
-    def get_tasks_by_user(user_id):
+    def get_task(user_id):
         conn = get_connection()
         cursor = conn.cursor()
         try:
@@ -102,6 +102,3 @@ class TaskDB:
         finally:
             cursor.close()
             conn.close()
-
-
-ScheduleDB = TaskDB

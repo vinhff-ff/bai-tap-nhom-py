@@ -47,6 +47,3 @@ class Task:
 
     def get_updated_at(self):
         return self.__updated_at
-
-
-Schedule = Task
