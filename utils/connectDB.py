@@ -5,5 +5,5 @@ def get_connection():
         host="localhost",
         user="root",
         password="vinh1234",
-        database="pk_ck"
+        database="py_ck"
     )

@@ -1,7 +1,34 @@
+from datetime import datetime
 from repository.taskDB import TaskDB
 
 
 class TaskService:
+    @staticmethod
+    def _parse_deadline(deadline):
+        if deadline is None:
+            return None
+
+        if isinstance(deadline, datetime):
+            return deadline
+
+        if isinstance(deadline, str):
+            normalized_deadline = deadline.strip()
+            for date_format in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M", "%Y-%m-%d"):
+                try:
+                    return datetime.strptime(normalized_deadline, date_format)
+                except ValueError:
+                    continue
+
+        return None
+
+    @staticmethod
+    def _is_task_overdue(task):
+        deadline = TaskService._parse_deadline(task.get_deadline())
+        if deadline is None:
+            return bool(task.get_is_overdue())
+
+        return deadline < datetime.now() or bool(task.get_is_overdue())
+
     @staticmethod
     def _build_task_response(task):
         return {
@@ -11,7 +38,7 @@ class TaskService:
             "description": task.get_description(),
             "status": task.get_status(),
             "deadline": str(task.get_deadline()),
-            "is_overdue": bool(task.get_is_overdue()),
+            "is_overdue": TaskService._is_task_overdue(task),
             "created_at": str(task.get_created_at()) if task.get_created_at() else None,
             "updated_at": str(task.get_updated_at()) if task.get_updated_at() else None,
         }
