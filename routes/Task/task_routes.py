@@ -1,4 +1,4 @@
-from services.Schedule.task_service import TaskService
+from services.Task.task_service import TaskService
 
 
 def create_task_route(request_body):

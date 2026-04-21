@@ -49,7 +49,7 @@ class TaskService:
         if not user_id:
             raise ValueError("Thieu user_id")
 
-        tasks = TaskDB.get_tasks_by_user(user_id)
+        tasks = TaskDB.get_task(user_id)
         result = []
         for task in tasks:
             result.append(TaskService._build_task_response(task))
