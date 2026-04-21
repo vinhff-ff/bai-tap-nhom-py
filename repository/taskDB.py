@@ -102,3 +102,27 @@ class TaskDB:
         finally:
             cursor.close()
             conn.close()
+
+    @staticmethod
+    def sync_overdue_by_user(user_id):
+        conn = get_connection()
+        cursor = conn.cursor()
+        try:
+            sync_query = """
+                            UPDATE tasks
+                            SET is_overdue = CASE
+                                WHEN deadline < NOW() THEN 1
+                                ELSE 0
+                            END,
+                            updated_at = NOW()
+                            WHERE user_id = %s
+                         """
+            cursor.execute(sync_query, (user_id,))
+            conn.commit()
+            return cursor.rowcount
+        except Exception as e:
+            conn.rollback()
+            raise RuntimeError(f"Lỗi database: {str(e)}")
+        finally:
+            cursor.close()
+            conn.close()
