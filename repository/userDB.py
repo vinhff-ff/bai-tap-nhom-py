@@ -6,20 +6,18 @@ class UserDB:
     def getUser(username):
         conn = get_connection()
         cursor = conn.cursor()
+        try:
+            query = "SELECT id, username, password, created_at FROM users WHERE username = %s LIMIT 1"
+            cursor.execute(query, (username,))
 
-        query = "SELECT id, username, password, created_at FROM users WHERE username = %s LIMIT 1"
-        cursor.execute(query, (username,))
-
-        result = cursor.fetchone()
-
-        conn.close()
-
-        if result:
-            user_id, username, password, created_at = result
-
-            return Users(user_id, username, password, created_at)
-
-        return None
+            result = cursor.fetchone()
+            if result:
+                user_id, username, password, created_at = result
+                return Users(user_id, username, password, created_at)
+            return None
+        finally:
+            cursor.close()
+            conn.close()
     
     @staticmethod
     def createUser(username, password):
@@ -33,4 +31,5 @@ class UserDB:
             conn.rollback()
             raise RuntimeError(f"Lỗi database: {str(e)}")
         finally:
+            cursor.close()
             conn.close()
