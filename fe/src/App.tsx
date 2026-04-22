@@ -542,14 +542,6 @@ const App: React.FC = () => {
 
         <div className="data-panel">
           <div className="data-panel__toolbar">
-            <Input
-              className="search-input"
-              placeholder="Tìm theo tiêu đề, mô tả..."
-              prefix={<SearchOutlined />}
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              allowClear
-            />
             <Select
               className="filter-select"
               value={statusFilter}
