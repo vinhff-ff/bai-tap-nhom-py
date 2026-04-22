@@ -1,31 +1,87 @@
-$bg: #0f0f10;
-$bg-2: #161618;
-$bg-3: #1c1c1f;
-$bg-hover: #222226;
-$border: rgba(255, 255, 255, 0.07);
-$border-hi: rgba(255, 255, 255, 0.12);
+:root {
+  --bg: #ffffff;
+  --bg-2: #f4f4f5;
+  --bg-3: #e4e4e7;
+  --bg-hover: #d4d4d8;
+  --border: rgba(0, 0, 0, 0.06);
+  --border-hi: rgba(0, 0, 0, 0.12);
+  --accent: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+  --accent-dim: rgba(99, 102, 241, 0.12);
+  --accent-glow: rgba(99, 102, 241, 0.22);
+  --amber: #d97706;
+  --amber-dim: rgba(217, 119, 6, 0.12);
+  --teal: #0d9488;
+  --teal-dim: rgba(13, 148, 136, 0.12);
+  --red: #e11d48;
+  --red-dim: rgba(225, 29, 72, 0.12);
+  --green: #16a34a;
+  --green-dim: rgba(22, 163, 74, 0.12);
+  --text-1: #18181b;
+  --text-2: #52525b;
+  --text-3: #a1a1aa;
+}
 
-$accent: linear-gradient(90deg, #5B3FA3 0%, #7A5AF8 100%);
-$accent-dim: rgba(91, 156, 246, 0.12);
-$accent-glow: rgba(91, 156, 246, 0.22);
+[data-theme="dark"] {
+  --bg: #0f0f10;
+  --bg-2: #161618;
+  --bg-3: #1c1c1f;
+  --bg-hover: #222226;
+  --border: rgba(255, 255, 255, 0.07);
+  --border-hi: rgba(255, 255, 255, 0.12);
+  --accent: linear-gradient(90deg, #5B3FA3 0%, #7A5AF8 100%);
+  --accent-dim: rgba(91, 156, 246, 0.12);
+  --accent-glow: rgba(91, 156, 246, 0.22);
+  --amber: #f0a84a;
+  --amber-dim: rgba(240, 168, 74, 0.12);
+  --teal: #4ac9b8;
+  --teal-dim: rgba(74, 201, 184, 0.12);
+  --red: #f05b5b;
+  --red-dim: rgba(240, 91, 91, 0.12);
+  --green: #5bc77d;
+  --green-dim: rgba(91, 199, 125, 0.12);
+  --text-1: #e8e8ea;
+  --text-2: #8a8a95;
+  --text-3: #55555f;
+}
 
-$amber: #f0a84a;
-$amber-dim: rgba(240, 168, 74, 0.12);
-$teal: #4ac9b8;
-$teal-dim: rgba(74, 201, 184, 0.12);
-$red: #f05b5b;
-$red-dim: rgba(240, 91, 91, 0.12);
-$green: #5bc77d;
-$green-dim: rgba(91, 199, 125, 0.12);
+$bg: var(--bg);
+$bg-2: var(--bg-2);
+$bg-3: var(--bg-3);
+$bg-hover: var(--bg-hover);
+$border: var(--border);
+$border-hi: var(--border-hi);
 
-$text-1: #e8e8ea;
-$text-2: #8a8a95;
-$text-3: #55555f;
+$accent: var(--accent);
+$accent-dim: var(--accent-dim);
+$accent-glow: var(--accent-glow);
+
+$amber: var(--amber);
+$amber-dim: var(--amber-dim);
+$teal: var(--teal);
+$teal-dim: var(--teal-dim);
+$red: var(--red);
+$red-dim: var(--red-dim);
+$green: var(--green);
+$green-dim: var(--green-dim);
+
+$text-1: var(--text-1);
+$text-2: var(--text-2);
+$text-3: var(--text-3);
 
 $font-head: "Sora", "DM Sans", sans-serif;
 $font-body: "DM Sans", "Sora", sans-serif;
-$r: 3px; // ALL border-radius locked at 3px
+$r: 3px;
 $ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+body {
+  background-color: var(--bg);
+  color: var(--text-1);
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+}
+
+
+
+
 
 *,
 *::before,
@@ -462,12 +518,15 @@ body {
     }
   }
 }
-
+.ant-select{
+  border-radius: $r !important;
+}
 .filter-select {
   width: 152px;
   background: $bg-3 !important;
   color: $text-1 !important;
   border: 1px solid $border !important;
+  border-radius: $r !important;
 
   .ant-select-selector {
     background: $bg-3 !important;
@@ -515,7 +574,7 @@ body {
     text-transform: uppercase;
     border-bottom: 1px solid $border;
     padding: 10px 14px;
-
+    
     &::before {
       display: none !important;
     }
@@ -1332,7 +1391,7 @@ body {
   &__link {
     background: none;
     border: none;
-    color: $accent;
+    color: blue;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;

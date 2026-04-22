@@ -33,6 +33,8 @@ import {
   LogoutOutlined,
   UserOutlined,
   PlusCircleOutlined,
+  MoonOutlined,
+  SunOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -50,6 +52,22 @@ import "./style/index.scss";
 
 dayjs.extend(relativeTime);
 
+export const useTheme = () => {
+  const [theme, setTheme] = useState<"light" | "dark">(
+    (localStorage.getItem("theme") as any) || "light"
+  );
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
+
+  return { theme, toggleTheme };
+};
 
 interface AuthState {
   userId: number | null;
@@ -93,7 +111,7 @@ const App: React.FC = () => {
     setNotifications([]);
     message.success("Đã đăng xuất!");
   };
-
+  const { theme, toggleTheme } = useTheme();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -414,6 +432,12 @@ const App: React.FC = () => {
         </div>
 
         <nav className="topbar__right">
+          <Tooltip title={theme === "light" ? "Dark mode" : "Light mode"}>
+            <span className="icon-action" onClick={toggleTheme}>
+              {theme === "light" ? <MoonOutlined /> : <SunOutlined />}
+            </span>
+          </Tooltip>
+
           <span className="topbar__user">
             <UserOutlined />
             {auth.username}
