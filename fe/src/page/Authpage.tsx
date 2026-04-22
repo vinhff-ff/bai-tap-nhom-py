@@ -83,7 +83,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLoginSuccess }) => {
           <p className="auth-heading__sub">
             {mode === "login"
               ? "Đăng nhập để quản lý công việc của bạn"
-              : "Đăng ký để bắt đầu sử dụng TaskFlow"}
+              : "Đăng ký để bắt đầu sử dụng công cụ này"}
           </p>
         </div>
 
