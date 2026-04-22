@@ -11,8 +11,8 @@ from routes.Task.task_routes import (
 
 ROUTES = {
     "POST": {
-        "/login": login_routes,
-        "/register": register_routes,
+        "/api/auth/login": login_routes,
+        "/api/auth/register": register_routes,
 
         "/schedule/create": create_task_route,
         "/schedule/list": list_tasks_route,

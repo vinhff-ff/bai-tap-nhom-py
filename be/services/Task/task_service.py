@@ -32,7 +32,7 @@ class TaskService:
     @staticmethod
     def _build_task_response(task):
         return {
-            "id": task.get_id(),
+            "task_id": task.get_id(),
             "user_id": task.get_user_id(),
             "title": task.get_title(),
             "description": task.get_description(),
@@ -84,8 +84,8 @@ class TaskService:
         return result
 
     @staticmethod
-    def update_task(task_id, user_id, title, description, status, deadline, is_overdue):
-        if not task_id or not user_id or not title or not status or not deadline:
+    def update_task(task_id, user_id, title, description, status, deadline, is_overdue, created_at):
+        if not task_id or not user_id or not title or not status or not deadline or not created_at:
             raise ValueError("Thieu du lieu bat buoc")
 
         normalized_status = TaskService._normalize_status(status)
@@ -97,6 +97,7 @@ class TaskService:
             normalized_status,
             deadline,
             is_overdue,
+            created_at,
         ) == 0:
             raise ValueError("Khong tim thay task hoac khong co quyen sua")
         return True

@@ -1,0 +1,1391 @@
+$bg: #0f0f10;
+$bg-2: #161618;
+$bg-3: #1c1c1f;
+$bg-hover: #222226;
+$border: rgba(255, 255, 255, 0.07);
+$border-hi: rgba(255, 255, 255, 0.12);
+
+$accent: linear-gradient(90deg, #5B3FA3 0%, #7A5AF8 100%);
+$accent-dim: rgba(91, 156, 246, 0.12);
+$accent-glow: rgba(91, 156, 246, 0.22);
+
+$amber: #f0a84a;
+$amber-dim: rgba(240, 168, 74, 0.12);
+$teal: #4ac9b8;
+$teal-dim: rgba(74, 201, 184, 0.12);
+$red: #f05b5b;
+$red-dim: rgba(240, 91, 91, 0.12);
+$green: #5bc77d;
+$green-dim: rgba(91, 199, 125, 0.12);
+
+$text-1: #e8e8ea;
+$text-2: #8a8a95;
+$text-3: #55555f;
+
+$font-head: "Sora", "DM Sans", sans-serif;
+$font-body: "DM Sans", "Sora", sans-serif;
+$r: 3px; // ALL border-radius locked at 3px
+$ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: $bg;
+  color: $text-1;
+  font-family: $font-body;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: $bg;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  height: 52px;
+  background: $bg-2;
+  border-bottom: 1px solid $border;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  &__brand-icon {
+    font-size: 16px;
+    color: $accent;
+  }
+
+  &__brand-name {
+    font-family: $font-head;
+    font-size: 16px;
+    font-weight: 700;
+    color: $text-1;
+    letter-spacing: -0.3px;
+
+    em {
+      color: $accent;
+      font-style: normal;
+    }
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__user {
+    font-size: 13px;
+    color: $text-2;
+    letter-spacing: 0.2px;
+  }
+}
+
+
+.bell-wrap {
+  position: relative;
+}
+
+.bell-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: $r;
+  border: 1px solid $border;
+  background: transparent;
+  color: $text-2;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s $ease;
+
+  &:hover,
+  &--on {
+    background: $bg-hover;
+    border-color: $border-hi;
+    color: $text-1;
+  }
+}
+
+// Ant Badge override
+.bell-wrap .ant-badge-count {
+  background: $red;
+  box-shadow: none;
+  border-radius: $r;
+  font-size: 10px;
+  height: 16px;
+  min-width: 16px;
+  line-height: 16px;
+}
+
+
+.notif-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 320px;
+  background: $bg-2;
+  border: 1px solid $border-hi;
+  border-radius: $r;
+  z-index: 300;
+  overflow: hidden;
+  animation: fadeDown 0.16s $ease;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid $border;
+    font-family: $font-head;
+    font-size: 13px;
+    font-weight: 600;
+    color: $text-1;
+    letter-spacing: 0.1px;
+  }
+}
+
+.notif-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: $red;
+  background: $red-dim;
+  padding: 2px 7px;
+  border-radius: $r;
+  letter-spacing: 0.2px;
+}
+
+.notif-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 28px 16px;
+  color: $text-3;
+  font-size: 13px;
+
+  .anticon {
+    font-size: 20px;
+    color: $green;
+  }
+}
+
+.notif-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 260px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $border-hi;
+    border-radius: 2px;
+  }
+}
+
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px 16px;
+  border-bottom: 1px solid $border;
+  transition: background 0.15s $ease;
+  cursor: pointer;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: $bg-hover;
+  }
+
+  &__icon {
+    font-size: 13px;
+    color: $amber;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  &__body {
+    flex: 1;
+  }
+
+  &__title {
+    margin: 0 0 2px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: $text-1;
+    line-height: 1.4;
+  }
+
+  &__desc {
+    margin: 0;
+    font-size: 11.5px;
+    color: $text-2;
+  }
+
+  &__time {
+    font-size: 11px;
+    color: $text-3;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+}
+
+
+.body {
+  flex: 1;
+  padding: 32px 36px;
+  max-width: 1320px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+
+.title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 28px;
+
+  &__text {
+    h1 {
+      margin: 0;
+      font-family: $font-head;
+      font-size: 22px;
+      font-weight: 700;
+      color: $text-1;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: $text-2;
+      letter-spacing: 0.1px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 16px;
+  background: $accent;
+  color: #fff;
+  border: none;
+  border-radius: $r;
+  font-family: $font-head;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+  cursor: pointer;
+  transition: opacity 0.15s $ease, transform 0.12s $ease;
+
+  &:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.btn-ghost {
+  &.ant-btn {
+    height: 34px;
+    border-radius: $r !important;
+    border: 1px solid $border !important;
+    background: transparent !important;
+    color: $text-2 !important;
+    box-shadow: none !important;
+    font-size: 13px;
+    transition: all 0.15s $ease !important;
+
+    &:hover {
+      border-color: $border-hi !important;
+      color: $text-1 !important;
+      background: $bg-hover !important;
+    }
+  }
+}
+
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+
+  @media (max-width: 860px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: $bg-2;
+  border: 1px solid $border;
+  border-radius: $r;
+  transition: border-color 0.15s $ease;
+
+  &:hover {
+    border-color: $border-hi;
+  }
+
+  &__icon {
+    font-size: 18px;
+    flex-shrink: 0;
+
+    &--blue {
+      color: blue;
+    }
+
+    &--amber {
+      color: $amber;
+    }
+
+    &--teal {
+      color: $teal;
+    }
+
+    &--red {
+      color: $red;
+    }
+  }
+
+  &__val {
+    font-family: $font-head;
+    font-size: 24px;
+    font-weight: 700;
+    color: $text-1;
+    line-height: 1;
+    letter-spacing: -0.5px;
+  }
+
+  &__label {
+    font-size: 11.5px;
+    color: $text-3;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    margin-top: 2px;
+    font-weight: 500;
+  }
+}
+
+
+.data-panel {
+  background: $bg-2;
+  border: 1px solid $border;
+  border-radius: $r;
+  overflow: hidden;
+
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border-bottom: 1px solid $border;
+    flex-wrap: wrap;
+  }
+}
+
+.search-input {
+  width: 256px;
+
+  input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  &.ant-input-affix-wrapper {
+    background: $bg-3 !important;
+    border: 1px solid $border !important;
+    border-radius: $r !important;
+    box-shadow: none !important;
+
+    input {
+      background: transparent !important;
+      color: $text-1 !important;
+      font-size: 13px;
+    }
+
+    .ant-input-prefix {
+      color: $text-3;
+    }
+
+    &:hover,
+    &:focus-within {
+      border-color: $border-hi !important;
+    }
+  }
+}
+
+.filter-select {
+  width: 152px;
+  background: $bg-3 !important;
+  color: $text-1 !important;
+  border: 1px solid $border !important;
+
+  .ant-select-selector {
+    background: $bg-3 !important;
+    border: 1px solid $border !important;
+    border-radius: $r !important;
+    box-shadow: none !important;
+    color: $text-1 !important;
+    font-size: 13px !important;
+    height: 32px !important;
+    display: flex;
+    align-items: center;
+  }
+
+  &.ant-select-open .ant-select-selector,
+  .ant-select-selector:hover {
+    border-color: $border-hi !important;
+  }
+
+  .ant-select-arrow {
+    color: $text-3;
+  }
+}
+
+
+.data-panel {
+
+  .ant-table {
+    background: transparent;
+    font-family: $font-body;
+    font-size: 13px;
+    color: $text-1;
+  }
+
+  .ant-table-container {
+    border-radius: 0 !important;
+  }
+
+  .ant-table-thead>tr>th {
+    background: $bg-3;
+    color: $text-3;
+    font-family: $font-head;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    border-bottom: 1px solid $border;
+    padding: 10px 14px;
+
+    &::before {
+      display: none !important;
+    }
+  }
+
+  .ant-table-tbody>tr>td {
+    background: transparent;
+    border-bottom: 1px solid $border;
+    padding: 11px 14px;
+    vertical-align: middle;
+    transition: background 0.12s $ease;
+  }
+
+  .ant-table-tbody>tr:hover>td {
+    background: $bg-hover !important;
+  }
+
+  .ant-table-tbody>tr:last-child>td {
+    border-bottom: none;
+  }
+
+  // Sorter icons
+  .ant-table-column-sorter {
+    color: $text-3;
+  }
+
+  // Filter icon
+  .ant-table-filter-trigger {
+    color: $text-3;
+  }
+
+  // Pagination
+  .ant-pagination {
+    padding: 12px 16px;
+    margin: 0 !important;
+    border-top: 1px solid $border;
+
+    .ant-pagination-item {
+      background: transparent;
+      border: 1px solid $border;
+      border-radius: $r;
+
+      a {
+        color: $text-2;
+      }
+
+      &-active {
+        background: $accent;
+        border-color: $accent;
+
+        a {
+          color: #fff;
+        }
+      }
+
+      &:hover {
+        border-color: $border-hi;
+
+        a {
+          color: $text-1;
+        }
+      }
+    }
+
+    .ant-pagination-prev,
+    .ant-pagination-next {
+      .ant-pagination-item-link {
+        background: transparent;
+        border: 1px solid $border;
+        border-radius: $r;
+        color: $text-2;
+      }
+
+      &:hover .ant-pagination-item-link {
+        border-color: $border-hi;
+        color: $text-1;
+      }
+    }
+
+    .ant-pagination-total-text {
+      color: $text-3;
+      font-size: 12px;
+    }
+  }
+
+  // Spin
+  .ant-spin-dot-item {
+    background: $accent;
+  }
+
+  // Empty
+  .ant-empty-description {
+    color: $text-3;
+  }
+}
+
+
+.col-index {
+  font-family: $font-head;
+  font-size: 12px;
+  color: $text-3;
+  letter-spacing: 0.3px;
+}
+
+.col-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-weight: 500;
+  color: $text-1;
+  font-size: 13.5px;
+}
+
+.col-muted {
+  color: $text-2;
+  font-size: 13px;
+}
+
+.col-sm {
+  font-size: 12.5px;
+}
+
+.col-deadline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: $text-2;
+
+  .anticon {
+    color: $accent;
+    font-size: 12px;
+  }
+}
+
+
+.overdue-tag {
+  &.ant-tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: $red;
+    background: $red-dim;
+    border: none;
+    border-radius: $r;
+    padding: 1px 7px;
+    margin: 0;
+    letter-spacing: 0.2px;
+  }
+}
+
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: $r;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+
+  &--pending {
+    background: $amber-dim;
+    color: $amber;
+  }
+
+  &--progress {
+    background: $accent-dim;
+    color: $accent;
+  }
+
+  &--done {
+    background: $green-dim;
+    color: $green;
+  }
+}
+
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.act-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: $r;
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.14s $ease;
+
+  &--edit,
+  &.act-edit {
+    color: $accent;
+
+    &:hover {
+      background: $accent-dim;
+    }
+  }
+
+  &--delete,
+  &.act-delete {
+    color: $text-3;
+
+    &:hover {
+      background: $red-dim;
+      border-color: rgba($red, 0.2);
+      color: $red;
+    }
+  }
+}
+
+
+.task-modal {
+  .ant-modal-container {
+    background: $bg-2 !important;
+    border-radius: 1px !important;
+
+  }
+
+  .ant-modal-content {
+    background: $bg-2 !important;
+    border: 1px solid $border-hi;
+    border-radius: $r !important;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .ant-modal-header {
+    background: $bg-2;
+    border-bottom: 1px solid $border;
+    padding: 18px 22px 16px;
+    border-radius: $r $r 0 0;
+  }
+
+  .ant-modal-title {
+    color: $text-1;
+  }
+
+  .ant-modal-close {
+    color: $text-3;
+    top: 14px;
+    right: 18px;
+
+    &:hover {
+      color: $text-1;
+      background: $bg-hover;
+      border-radius: $r;
+    }
+  }
+
+  .ant-modal-body {
+    padding: 22px;
+    background: $bg-2;
+  }
+
+  .ant-modal-footer {
+    background: $bg-2;
+    border-top: 1px solid $border;
+    border-radius: 0 0 $r $r;
+    padding: 14px 22px;
+  }
+}
+
+.modal-title {
+  font-family: $font-head;
+  font-size: 15px;
+  font-weight: 700;
+  color: $text-1;
+  letter-spacing: -0.2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .anticon {
+    color: $accent;
+  }
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+
+.task-form {
+  .ant-form-item-label>label {
+    font-size: 12px;
+    font-weight: 600;
+    color: $text-2;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+
+  .ant-input,
+  .ant-input-textarea textarea {
+    background: $bg-3 !important;
+    border: 1px solid $border !important;
+    border-radius: $r !important;
+    color: $text-1 !important;
+    font-size: 13.5px;
+    box-shadow: none !important;
+
+    &::placeholder {
+      color: $text-3;
+    }
+
+    &:hover,
+    &:focus {
+      border-color: $border-hi !important;
+    }
+
+    &:focus {
+      border-color: $accent !important;
+    }
+  }
+
+  .ant-select {
+    background: $bg-3 !important;
+    color: $text-1 !important;
+  }
+
+  .ant-select-selector {
+    background: $bg-3 !important;
+    border: 1px solid $border !important;
+    border-radius: $r !important;
+    color: $text-1 !important;
+    font-size: 13.5px !important;
+    box-shadow: none !important;
+
+    &:hover {
+      border-color: $border-hi !important;
+    }
+  }
+
+  .ant-picker {
+    background: $bg-3 !important;
+    border: 1px solid $border !important;
+    border-radius: $r !important;
+    box-shadow: none !important;
+    color: $text-1 !important;
+
+    input {
+      color: $text-1 !important;
+      font-size: 13.5px;
+    }
+
+    .ant-picker-suffix {
+      color: $text-3;
+    }
+
+    &:hover,
+    &-focused {
+      border-color: $accent !important;
+    }
+
+    .ant-picker-dropdown {
+      .ant-picker-time-panel-column {
+        color: $text-1 !important;
+      }
+
+      .ant-picker-time-panel-cell {
+        color: $text-1 !important;
+      }
+
+      .ant-picker-time-panel-cell-inner {
+        color: $text-1 !important;
+      }
+    }
+
+  }
+
+
+
+
+  .ant-switch {
+    background: $bg-3;
+    border: 1px solid $border;
+
+    &-checked {
+      background: $accent;
+      border-color: $accent;
+    }
+  }
+
+  .ant-form-item-explain-error {
+    font-size: 12px;
+  }
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+
+
+.ant-select-dropdown {
+  background: $bg-2 !important;
+  border: 1px solid $border-hi !important;
+  border-radius: $r !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+
+  .ant-select-item {
+    color: $text-2 !important;
+    font-size: 13px;
+    border-radius: $r !important;
+
+    &:hover,
+    &-option-active {
+      background: $bg-hover !important;
+      color: $text-1 !important;
+    }
+
+    &-option-selected {
+      background: $accent-dim !important;
+      color: $accent !important;
+    }
+  }
+}
+
+
+.ant-picker-panel-container {
+  background: $bg-2 !important;
+  border: 1px solid $border-hi !important;
+  border-radius: $r !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+
+  .ant-picker-header,
+  .ant-picker-header button {
+    color: $text-1;
+    border-bottom: 1px solid $border;
+  }
+
+  .ant-picker-cell-inner {
+    border-radius: $r !important;
+  }
+
+  .ant-picker-cell-in-view {
+    color: $text-2;
+
+    &:hover .ant-picker-cell-inner {
+      background: $bg-hover !important;
+    }
+  }
+
+  .ant-picker-cell-selected .ant-picker-cell-inner {
+    background: $accent !important;
+  }
+
+  .ant-picker-cell-today .ant-picker-cell-inner::before {
+    border-color: $accent !important;
+    border-radius: $r !important;
+  }
+}
+
+
+.ant-popover {
+  .ant-popover-inner {
+    background: $bg-2 !important;
+    border: 1px solid $border-hi !important;
+    border-radius: $r !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .ant-popover-title {
+    color: $text-1 !important;
+    font-weight: 600;
+    font-size: 13.5px;
+    border-bottom: 1px solid $border !important;
+  }
+
+  .ant-popover-inner-content,
+  .ant-popover-description {
+    color: $text-2 !important;
+    font-size: 13px;
+  }
+}
+
+
+.ant-message-notice-content {
+  background: $bg-2 !important;
+  border: 1px solid $border-hi !important;
+  border-radius: $r !important;
+  color: $text-1 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+  font-size: 13px;
+}
+
+.ant-tooltip .ant-tooltip-inner {
+  background: $bg-3 !important;
+  border: 1px solid $border !important;
+  border-radius: $r !important;
+  color: $text-2 !important;
+  font-size: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+.ant-tooltip .ant-tooltip-arrow-content {
+  background: $bg-3 !important;
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $bg;
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+}
+
+.auth-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  &__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  &__glow {
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(40px);
+  }
+}
+
+
+.auth-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 400px;
+  background: $bg-2;
+  border: 1px solid $border-hi;
+  border-radius: $r;
+  padding: 36px 32px 32px;
+  animation: authCardIn 0.3s $ease;
+}
+
+@keyframes authCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 28px;
+
+  &__icon {
+    width: 32px;
+    height: 32px;
+    background: $accent-dim;
+
+    border-radius: $r;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $accent;
+    font-size: 15px;
+  }
+
+  &__name {
+    font-family: $font-head;
+    font-size: 17px;
+    font-weight: 700;
+    color: $text-1;
+    letter-spacing: -0.3px;
+
+    em {
+      color: $accent;
+      font-style: normal;
+    }
+  }
+}
+
+
+.auth-heading {
+  margin-bottom: 24px;
+
+  &__title {
+    margin: 0 0 5px;
+    font-family: $font-head;
+    font-size: 20px;
+    font-weight: 700;
+    color: $text-1;
+    letter-spacing: -0.4px;
+  }
+
+  &__sub {
+    margin: 0;
+    font-size: 13px;
+    color: $text-2;
+    letter-spacing: 0.1px;
+    line-height: 1.5;
+  }
+}
+
+
+.auth-tabs {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: $bg-3;
+  border: 1px solid $border;
+  border-radius: $r;
+  padding: 3px;
+  margin-bottom: 22px;
+  overflow: hidden;
+}
+
+.auth-tab {
+  position: relative;
+  z-index: 1;
+  height: 32px;
+  background: transparent;
+  border: none;
+  border-radius: $r;
+  font-family: $font-head;
+  font-size: 13px;
+  font-weight: 600;
+  color: $text-3;
+  cursor: pointer;
+  transition: color 0.2s $ease;
+  letter-spacing: 0.1px;
+
+  &--active {
+    color: $text-1;
+  }
+}
+
+.auth-tabs__indicator {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  height: calc(100% - 6px);
+  background: $bg-hover;
+  border: 1px solid $border-hi;
+  border-radius: $r;
+  transition: transform 0.22s $ease;
+  z-index: 0;
+}
+
+
+.auth-form {
+  .ant-form-item {
+    margin-bottom: 14px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .ant-form-item-explain-error {
+    font-size: 11.5px;
+    margin-top: 3px;
+  }
+}
+
+.auth-input {
+
+  &.ant-input-affix-wrapper,
+  &.ant-input-password {
+    background: $bg-3 !important;
+    border: 1px solid $border !important;
+    border-radius: $r !important;
+    box-shadow: none !important;
+    height: 42px;
+    padding: 0 12px;
+    transition: border-color 0.16s $ease !important;
+
+    .ant-input-password-icon {
+      color: #fff !important;
+    }
+
+    input {
+      background: transparent !important;
+      color: $text-1 !important;
+      font-size: 14px;
+      font-family: $font-body;
+
+      &::placeholder {
+        color: $text-3;
+      }
+    }
+
+    .ant-input-prefix {
+      color: $text-3;
+      margin-right: 9px;
+      font-size: 14px;
+    }
+
+    .ant-input-suffix {
+      color: $text-3;
+    }
+
+    &:hover {
+      border-color: $border-hi !important;
+    }
+
+    &:focus-within {
+      border-color: $accent !important;
+
+    }
+  }
+}
+
+
+.auth-input__icon {
+  font-size: 14px;
+}
+
+
+.auth-submit {
+  width: 100%;
+  height: 42px;
+  margin-top: 6px;
+  background: $accent;
+  border: none;
+  border-radius: $r;
+  color: #fff;
+  font-family: $font-head;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.15s $ease, transform 0.12s $ease;
+
+  &:hover:not(:disabled) {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .anticon {
+    font-size: 15px;
+  }
+}
+
+.auth-submit__arrow {
+  transition: transform 0.15s $ease;
+}
+
+.auth-submit:hover .auth-submit__arrow {
+  transform: translateX(3px);
+}
+
+
+.auth-hint {
+  margin: 18px 0 0;
+  text-align: center;
+  font-size: 13px;
+  color: $text-3;
+
+  &__link {
+    background: none;
+    border: none;
+    color: $accent;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.14s $ease;
+    font-family: $font-body;
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+}
+
+.topbar__user {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: $text-2;
+  background: $bg-3;
+  border: 1px solid $border;
+  border-radius: $r;
+  padding: 4px 10px;
+  letter-spacing: 0.1px;
+
+  .anticon {
+    font-size: 12px;
+    color: $text-3;
+  }
+}
+
+
+.logout-btn {
+  color: $text-3 !important;
+
+  &:hover {
+    color: $red !important;
+    background: $red-dim !important;
+    border-color: rgba($red, 0.2) !important;
+  }
+}
+
+.ant-picker-time-panel-cell-inner {
+  color: $text-1 !important;
+}
+
+.ant-picker-dropdown {
+  .ant-picker-time-panel-cell-inner {
+    color: $text-1;
+  }
+
+  .ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
+    background-color: $accent !important;
+    color: #000 !important;
+  }
+}

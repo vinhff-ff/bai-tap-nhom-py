@@ -1,4 +1,4 @@
-from utils.connectDB import get_connection
+from config.connectDB import get_connection
 from res.task import Task
 
 
@@ -57,7 +57,7 @@ class TaskDB:
             conn.close()
 
     @staticmethod
-    def update_task(task_id, user_id, title, description, status, deadline, is_overdue):
+    def update_task(task_id, user_id, title, description, status, deadline, is_overdue, created_at):
         conn = get_connection()
         cursor = conn.cursor()
         try:
@@ -68,12 +68,13 @@ class TaskDB:
                                 status = %s,
                                 deadline = %s,
                                 is_overdue = %s,
-                                updated_at = NOW()
+                                updated_at = NOW(),
+                                created_at = %s
                             WHERE id = %s AND user_id = %s
                             """
             cursor.execute(
                 update_query,
-                (title, description, status, deadline, int(bool(is_overdue)), task_id, user_id),
+                (title, description, status, deadline, int(bool(is_overdue)), created_at, task_id, user_id),
             )
             conn.commit()
             return cursor.rowcount

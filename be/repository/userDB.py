@@ -1,4 +1,4 @@
-from utils.connectDB import get_connection
+from config.connectDB import get_connection
 from res.users import Users
 
 class UserDB:

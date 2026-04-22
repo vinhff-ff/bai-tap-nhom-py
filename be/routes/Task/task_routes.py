@@ -32,11 +32,12 @@ def update_task_route(request_body):
 	description = request_body.get("description", "")
 	status = request_body.get("status", "pending")
 	deadline = request_body.get("deadline")
-	is_overdue = request_body.get("is_overdue", False)
+	is_overdue = request_body.get("is_overdue", False),
+	created_at = request_body.get("created_at")
 
 	try:
 		TaskService.update_task(
-			task_id, user_id, title, description, status, deadline, is_overdue
+			task_id, user_id, title, description, status, deadline, is_overdue, created_at
 		)
 		return {
 			"status": 200,
